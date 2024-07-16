@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://c2peoufqcin88"]
+
+[ext_resource type="Texture2D" uid="uid://bwuh1svguartb" path="res://icon.svg" id="1_mobsc"]
+[ext_resource type="Script" path="res://actors/wizard.gd" id="1_p5emb"]
+[ext_resource type="PackedScene" uid="uid://cp1q2dw3vfb0m" path="res://systems/ping_pong/paddle.tscn" id="3_7feef"]
+[ext_resource type="Script" path="res://systems/ping_pong/paddle.gd" id="4_bj0p7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yt0no"]
+radius = 35.3553
+
+[node name="Wizard" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_p5emb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(-0.999999, -61)
+texture = ExtResource("1_mobsc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+y_sort_enabled = true
+position = Vector2(-0.999999, -31)
+shape = SubResource("CircleShape2D_yt0no")
+
+[node name="Paddle" parent="." instance=ExtResource("3_7feef")]
+position = Vector2(0, -60)
+script = ExtResource("4_bj0p7")
