@@ -3,7 +3,7 @@ extends Node2D
 
 @onready var rigid_body_2d := $RigidBody2D as RigidBody2D
 
-var current_side: Data.Team = Data.Team.NONE
+var possession: Data.Team = Data.Team.NONE
 var launch_timer := 0.0
 var launch_time := 0.0
 var launch_speed := 0.0
@@ -33,6 +33,23 @@ func bounce() -> void:
 	end = Physics.simulate_position(start, launch_speed, launch_angle, Physics.GRAVITY, launch_time)
 	end.y += Physics.BLOCK_HEIGHT
 	launch(end)
+
+func serve(serving_side: Data.Team) -> void:
+	possession = serving_side
+	var opposite: Data.Team = Data.get_opposite(serving_side)
+	var table_position := table.get_table_position(opposite)
+	bounces = 0
+	launch(table_position)
+	
+func can_return(hitting_side: Data.Team) -> bool:
+	return bounces == 1 and hitting_side != possession
+	
+func hit() -> void:
+	var table_position := table.get_table_position(possession)
+	var opposite: Data.Team = Data.get_opposite(possession)
+	possession = opposite
+	bounces = 0
+	launch(table_position)
 
 func launch(target: Vector2) -> void:
 	start = global_position

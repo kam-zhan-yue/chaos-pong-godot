@@ -8,6 +8,7 @@ radius = 16.0
 
 [node name="Ball" type="Node2D"]
 z_index = 2
+scale = Vector2(0.3, 0.3)
 script = ExtResource("1_0nbdt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

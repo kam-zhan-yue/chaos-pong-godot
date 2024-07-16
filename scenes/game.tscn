@@ -12,11 +12,15 @@ zoom = Vector2(2, 2)
 
 [node name="PongMap" parent="." instance=ExtResource("1_gqvsv")]
 
-[node name="Wizard" parent="PongMap" instance=ExtResource("2_8wa4w")]
-position = Vector2(-135, 20)
+[node name="BlueWizard" parent="PongMap" instance=ExtResource("2_8wa4w")]
+position = Vector2(-102, 61)
+
+[node name="RedWizard" parent="PongMap" instance=ExtResource("2_8wa4w")]
+position = Vector2(86, -44)
 
 [node name="GameManager" type="Node2D" parent="."]
 scale = Vector2(0.99909, 0.996136)
 script = ExtResource("1_bib3d")
 
-[connection signal="serve" from="PongMap/Wizard" to="GameManager" method="_on_wizard_serve"]
+[connection signal="serve" from="PongMap/BlueWizard" to="GameManager" method="_on_wizard_serve"]
+[connection signal="serve" from="PongMap/RedWizard" to="GameManager" method="_on_wizard_serve"]
