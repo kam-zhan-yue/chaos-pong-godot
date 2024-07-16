@@ -20,11 +20,10 @@ func _physics_process(delta: float) -> void:
 		launch_timer += delta
 
 func launch(target: Vector2) -> void:
-	print('Launching Ball to: ', target)
 	start = global_position
 	end = target
 	
-	launch_speed = Physics.get_projectile_speed(start, end,)
+	launch_speed = Physics.get_projectile_speed(start, end)
 	launch_angle = Physics.get_projectile_angle(start, end)
 	launch_time = Physics.get_projectile_time(start, end, launch_speed, launch_angle)
 	launch_timer = 0.1
