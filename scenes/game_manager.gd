@@ -23,4 +23,4 @@ func _ready() -> void:
 func _on_wizard_serve(team: int) -> void:
 	var opposite: Data.Team = Data.get_opposite(team)
 	var table_position := pong_map.table.get_table_position(opposite)
-	ball.global_position = table_position
+	ball.launch(table_position)
