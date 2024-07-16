@@ -1,15 +1,26 @@
 extends Node2D
 
-@onready var wizard: CharacterBody2D = $"../Map/Wizard"
-@onready var pong_map: PongMap = $"../PongMap"
+@onready var pong_map := $"../PongMap" as PongMap
+@onready var wizard: Wizard = $"../PongMap/Wizard" as Wizard
 
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("shoot"):
-		serve_ball()
+const BALL = preload("res://systems/ping_pong/ball.tscn")
+var ball: Ball
+var state := GameState.IDLE
 
-func serve_ball() -> void:
-	print('serve')
-	print(pong_map)
-	print(pong_map.table)
-	
-	#print(map.table.get_table_position(Data.Team.BLUE))
+enum GameState {
+	IDLE,
+	SERVING,
+	RETURNING,
+	BREAK,
+}
+
+func _ready() -> void:
+	wizard.init(Data.Team.BLUE)
+	ball = BALL.instantiate() as Ball
+	wizard.set_serve(ball)
+	state = GameState.SERVING
+
+func _on_wizard_serve(team: int) -> void:
+	var opposite: Data.Team = Data.get_opposite(team)
+	var table_position := pong_map.table.get_table_position(opposite)
+	ball.global_position = table_position

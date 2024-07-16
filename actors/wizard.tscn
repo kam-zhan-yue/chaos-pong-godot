@@ -26,4 +26,8 @@ shape = SubResource("CircleShape2D_yt0no")
 
 [node name="Paddle" parent="." instance=ExtResource("3_7feef")]
 position = Vector2(0, -60)
+collision_layer = 2
 script = ExtResource("4_bj0p7")
+
+[node name="BallSpawn" type="Marker2D" parent="."]
+position = Vector2(85, -145)

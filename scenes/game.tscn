@@ -5,9 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c2peoufqcin88" path="res://actors/wizard.tscn" id="2_8wa4w"]
 
 [node name="Game" type="Node2D"]
-
-[node name="GameManager" type="Node2D" parent="."]
-script = ExtResource("1_bib3d")
+texture_filter = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
@@ -16,3 +14,9 @@ zoom = Vector2(2, 2)
 
 [node name="Wizard" parent="PongMap" instance=ExtResource("2_8wa4w")]
 position = Vector2(-135, 20)
+
+[node name="GameManager" type="Node2D" parent="."]
+scale = Vector2(0.99909, 0.996136)
+script = ExtResource("1_bib3d")
+
+[connection signal="serve" from="PongMap/Wizard" to="GameManager" method="_on_wizard_serve"]
