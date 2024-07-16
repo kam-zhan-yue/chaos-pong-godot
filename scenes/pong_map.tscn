@@ -78,6 +78,8 @@ script = ExtResource("2_xfng1")
 [node name="Red Area" type="Area2D" parent="Table"]
 z_index = 2
 position = Vector2(25, -17)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("2_6apxu")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Table/Red Area"]
@@ -87,6 +89,8 @@ polygon = PackedVector2Array(-55, -7, 6, 25, 54, 1, -9, -31)
 [node name="Blue Area" type="Area2D" parent="Table"]
 z_index = 2
 position = Vector2(-39, 15)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("2_6apxu")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Table/Blue Area"]

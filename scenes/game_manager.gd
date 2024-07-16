@@ -17,6 +17,7 @@ enum GameState {
 func _ready() -> void:
 	wizard.init(Data.Team.BLUE)
 	ball = BALL.instantiate() as Ball
+	ball.init(pong_map.table)
 	wizard.set_serve(ball)
 	state = GameState.SERVING
 

@@ -5,3 +5,4 @@ extends TileMap
 
 func _ready() -> void:
 	print(table)
+

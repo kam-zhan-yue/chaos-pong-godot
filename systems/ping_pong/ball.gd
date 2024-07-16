@@ -10,8 +10,11 @@ var launch_speed := 0.0
 var launch_angle := 0.0
 var start := Vector2.ZERO
 var end := Vector2.ZERO
+var table: Table
+var bounces := 0
 
-const GRAVITY = Vector2(0, 50)
+func init(table: Table) -> void:
+	self.table = table
 
 func _physics_process(delta: float) -> void:
 	if launch_timer < launch_time:
@@ -22,6 +25,9 @@ func _physics_process(delta: float) -> void:
 		bounce()
 
 func bounce() -> void:
+	bounces += 1
+	if bounces > 2:
+		queue_free() 
 	# Calculate new end position and offset by height of block
 	start = end
 	end = Physics.simulate_position(start, launch_speed, launch_angle, Physics.GRAVITY, launch_time)
@@ -36,6 +42,3 @@ func launch(target: Vector2) -> void:
 	launch_angle = Physics.get_projectile_angle(start, end)
 	launch_time = Physics.get_projectile_time(start, end, launch_speed, launch_angle)
 	launch_timer = 0
-	
-	print("Ball %v, Table %v" %[start, end])
-	print("Velocity %f, Angle %f, Time %f" %[launch_speed, launch_angle, launch_time])
