@@ -1,8 +1,6 @@
 class_name Ball
 extends Node2D
 
-@onready var rigid_body_2d := $RigidBody2D as RigidBody2D
-
 var possession: Data.Team = Data.Team.NONE
 var launch_timer := 0.0
 var launch_time := 0.0
@@ -16,10 +14,13 @@ var bounces := 0
 func init(table: Table) -> void:
 	self.table = table
 
+func move(next: Vector2) -> void:
+	global_position = next
+
 func _physics_process(delta: float) -> void:
 	if launch_timer < launch_time:
 		var next_position := Physics.simulate_position(start, launch_speed, launch_angle, Physics.GRAVITY, launch_timer)
-		global_position = next_position
+		move(next_position)
 		launch_timer += delta
 	elif launch_time > 0.0:
 		bounce()

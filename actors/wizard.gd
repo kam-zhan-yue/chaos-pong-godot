@@ -20,7 +20,7 @@ func _physics_process(delta: float) -> void:
 	var isometric := Vector2(direction.x, direction.y * 0.5).normalized()
 	self.velocity = isometric * SPEED
 	if state == WizardState.SERVING and ball:
-		ball.global_position = ball_spawn.global_position
+		ball.move(ball_spawn.global_position)
 	move_and_slide()
 	
 func init(team_side: Data.Team) -> void:
@@ -40,10 +40,7 @@ func _input(event: InputEvent) -> void:
 func shoot() -> void:
 	match state:
 		WizardState.SERVING:
-			print('Serving from team: ', team)
 			ball.serve(team)
 			set_returning()
 		WizardState.RETURNING:
-			print('Try return from team: ', team)
-			if paddle.try_return(team):
-				queue_free()
+			paddle.try_return(team)

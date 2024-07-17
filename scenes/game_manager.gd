@@ -3,6 +3,7 @@ extends Node2D
 @onready var pong_map := $"../PongMap" as PongMap
 @onready var blue_wizard: Wizard = $"../PongMap/BlueWizard" as Wizard
 @onready var red_wizard: Wizard = $"../PongMap/RedWizard" as Wizard
+@onready var game: Node2D = $".."
 
 const BALL = preload("res://systems/ping_pong/ball.tscn")
 var ball: Ball
@@ -18,7 +19,7 @@ enum GameState {
 func _ready() -> void:
 	blue_wizard.init(Data.Team.BLUE)
 	red_wizard.init(Data.Team.RED)
-	set_serve(Data.Team.BLUE)
+	set_serve(Data.Team.RED)
 
 
 func set_serve(serving_team: Data.Team) -> void:
