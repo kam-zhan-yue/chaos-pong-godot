@@ -7,9 +7,10 @@ extends Node2D
 
 const BALL = preload("res://systems/ping_pong/ball.tscn")
 var ball: Ball
-var state := GameState.IDLE
+var state := State.IDLE
+@onready var game_state: GameState
 
-enum GameState {
+enum State {
 	IDLE,
 	SERVING,
 	RETURNING,
@@ -19,12 +20,18 @@ enum GameState {
 func _ready() -> void:
 	blue_wizard.init(Data.Team.BLUE)
 	red_wizard.init(Data.Team.RED)
-	set_serve(Data.Team.RED)
+	start_game(Data.Team.RED)
+
+func start_game(serving_team: Data.Team) -> void:
+	game_state = GameState.new(serving_team, pong_map.table)
+	game_state.on_point.connect(_on_game_state_on_point)
+	set_serve(serving_team)
 
 
 func set_serve(serving_team: Data.Team) -> void:
+	print('set serve')
 	ball = BALL.instantiate() as Ball
-	ball.init(pong_map.table)
+	ball.init(game_state)
 	self.add_child(ball)
 
 	if serving_team == Data.Team.BLUE:
@@ -34,8 +41,7 @@ func set_serve(serving_team: Data.Team) -> void:
 		red_wizard.set_serving(ball)
 		blue_wizard.set_returning()
 
-	state = GameState.SERVING
-		
+	state = State.SERVING
 
-#func _on_wizard_serve(team: int) -> void:
-	#ball.serve(team)
+func _on_game_state_on_point() -> void:
+	set_serve(game_state.get_serving_team())

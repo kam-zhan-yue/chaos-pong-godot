@@ -9,3 +9,14 @@ func get_opposite(team: Team) -> Team:
 		return Team.RED
 	else:
 		return Team.NONE
+
+func get_team(team: Team) -> String:
+	match team:
+		Team.NONE:
+			return 'None'
+		Team.RED:
+			return 'Red'
+		Team.BLUE:
+			return 'Blue'
+		_:
+			return 'None'
