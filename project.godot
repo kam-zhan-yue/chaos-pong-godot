@@ -23,6 +23,7 @@ aseprite_executable_path="/Applications/Aseprite.app/Contents/MacOS/aseprite"
 
 Data="*res://systems/core/data.gd"
 Physics="*res://systems/core/physics.gd"
+Ease="*res://systems/core/ease.gd"
 
 [display]
 

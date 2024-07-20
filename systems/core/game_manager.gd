@@ -58,6 +58,23 @@ func set_serve(serving_team: Data.Team) -> void:
 
 	state = State.SERVING
 
-
+func lerp_positions() -> void:
+	lerp_transform(blue_wizard, game_map.blue_spawn, 0.5)
+	await lerp_transform(red_wizard, game_map.red_spawn, 0.5)
+	
+func lerp_transform(wizard: Wizard, spawn: Marker2D, duration: float):
+	var time := 0.0
+	var start_position := wizard.global_position
+	while time < duration:
+		var delta := get_process_delta_time()
+		time += delta
+		var t := Ease.in_out(time / duration)
+		wizard.global_position = start_position.lerp(spawn.global_position, t)
+		print('test ', t)
+		await get_tree().create_timer(delta).timeout
+	print('over')
+	wizard.global_position = spawn.global_position
+	
 func _on_game_events_restart_game() -> void:
+	await lerp_positions()
 	set_serve(game_state.get_serving_team())
