@@ -2,7 +2,6 @@ extends Node2D
 
 @onready var game_map: GameMap = $"../GameMap"
 @onready var game := $".." as Node2D
-@onready var game_events := %GameEvents as GameEvents
 @onready var game_container := $"../CanvasLayer/GameContainer" as GameContainer
 const WIZARD = preload("res://actors/wizard.tscn")
 const BALL = preload("res://systems/ping_pong/ball.tscn")
@@ -38,8 +37,8 @@ func setup_game() -> void:
 
 func start_game(serving_team: Data.Team) -> void:
 	game_state = GameState.new(serving_team, game_map.table)
-	game_events.setup(game_state)
-	game_container.setup(game_events)
+	game_state.restart.connect(_restart_game)
+	game_container.setup(game_state)
 	set_serve(serving_team)
 
 
@@ -70,11 +69,9 @@ func lerp_transform(wizard: Wizard, spawn: Marker2D, duration: float):
 		time += delta
 		var t := Ease.in_out(time / duration)
 		wizard.global_position = start_position.lerp(spawn.global_position, t)
-		print('test ', t)
-		await get_tree().create_timer(delta).timeout
-	print('over')
+		await Global.frame()
 	wizard.global_position = spawn.global_position
 	
-func _on_game_events_restart_game() -> void:
+func _restart_game() -> void:
 	await lerp_positions()
 	set_serve(game_state.get_serving_team())

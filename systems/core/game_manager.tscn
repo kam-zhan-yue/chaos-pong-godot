@@ -1,13 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dej2t0irhfis3"]
+[gd_scene load_steps=2 format=3 uid="uid://dej2t0irhfis3"]
 
 [ext_resource type="Script" path="res://systems/core/game_manager.gd" id="1_51rfv"]
-[ext_resource type="Script" path="res://systems/core/game_events.gd" id="2_j7ghl"]
 
 [node name="GameManager" type="Node2D"]
 script = ExtResource("1_51rfv")
-
-[node name="GameEvents" type="Node2D" parent="."]
-unique_name_in_owner = true
-script = ExtResource("2_j7ghl")
-
-[connection signal="restart_game" from="GameEvents" to="." method="_on_game_events_restart_game"]

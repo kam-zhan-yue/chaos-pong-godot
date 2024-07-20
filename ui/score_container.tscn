@@ -1,0 +1,68 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwuaqb8xgrbfg"]
+
+[ext_resource type="Script" path="res://ui/score_container.gd" id="1_y6ceb"]
+
+[node name="ScoreContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y6ceb")
+
+[node name="ScoreTopContainer" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScoreTopContainer"]
+layout_mode = 2
+
+[node name="BlueScore" type="Label" parent="ScoreTopContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Hyphen" type="Label" parent="ScoreTopContainer/HBoxContainer"]
+layout_mode = 2
+text = "-"
+
+[node name="RedScore" type="Label" parent="ScoreTopContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="ScorePopup" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScorePopup"]
+layout_mode = 2
+
+[node name="BluePopup" type="Label" parent="ScorePopup/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "0"
+
+[node name="Hyphen" type="Label" parent="ScorePopup/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "-"
+
+[node name="RedPopup" type="Label" parent="ScorePopup/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "0"
