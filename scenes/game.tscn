@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bo5fecdi1rmdb"]
+[gd_scene load_steps=5 format=3 uid="uid://bo5fecdi1rmdb"]
 
-[ext_resource type="Script" path="res://scenes/game_manager.gd" id="1_bib3d"]
 [ext_resource type="PackedScene" uid="uid://cke5a4ghljpt0" path="res://scenes/pong_map.tscn" id="1_gqvsv"]
 [ext_resource type="PackedScene" uid="uid://c2peoufqcin88" path="res://actors/wizard.tscn" id="2_8wa4w"]
+[ext_resource type="PackedScene" uid="uid://c6urxg0rblekg" path="res://ui/game_ui.tscn" id="4_6obql"]
+[ext_resource type="PackedScene" uid="uid://dej2t0irhfis3" path="res://systems/core/game_manager.tscn" id="4_ckd20"]
 
 [node name="Game" type="Node2D"]
 texture_filter = 1
@@ -18,8 +19,9 @@ position = Vector2(-102, 61)
 [node name="RedWizard" parent="PongMap" instance=ExtResource("2_8wa4w")]
 position = Vector2(98, -41)
 
-[node name="GameManager" type="Node2D" parent="."]
-script = ExtResource("1_bib3d")
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[connection signal="serve" from="PongMap/BlueWizard" to="GameManager" method="_on_wizard_serve"]
-[connection signal="serve" from="PongMap/RedWizard" to="GameManager" method="_on_wizard_serve"]
+[node name="GameContainer" parent="CanvasLayer" instance=ExtResource("4_6obql")]
+offset_right = -1.0
+
+[node name="GameManager" parent="." instance=ExtResource("4_ckd20")]

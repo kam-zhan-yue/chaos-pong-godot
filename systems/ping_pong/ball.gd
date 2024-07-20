@@ -10,6 +10,7 @@ var start := Vector2.ZERO
 var end := Vector2.ZERO
 var game_state: GameState
 var bounces := 0
+var time_scale := 1.0
 
 func init(game_state: GameState) -> void:
 	self.game_state = game_state
@@ -17,11 +18,11 @@ func init(game_state: GameState) -> void:
 func move(next: Vector2) -> void:
 	global_position = next
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if launch_timer < launch_time:
 		var next_position := Physics.simulate_position(start, launch_speed, launch_angle, Physics.GRAVITY, launch_timer)
 		move(next_position)
-		launch_timer += delta
+		launch_timer += delta * time_scale
 	elif launch_time > 0.0:
 		bounce()
 
@@ -48,6 +49,7 @@ func can_return(hitting_side: Data.Team) -> bool:
 	return bounces == 1 and hitting_side != possession
 	
 func hit() -> void:
+	time_scale += 0.1
 	var table_position := game_state.table.get_table_position(possession)
 	var opposite: Data.Team = Data.get_opposite(possession)
 	possession = opposite

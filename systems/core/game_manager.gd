@@ -3,12 +3,17 @@ extends Node2D
 @onready var pong_map := $"../PongMap" as PongMap
 @onready var blue_wizard: Wizard = $"../PongMap/BlueWizard" as Wizard
 @onready var red_wizard: Wizard = $"../PongMap/RedWizard" as Wizard
-@onready var game: Node2D = $".."
+@onready var game := $".." as Node2D
+@onready var game_events := %GameEvents as GameEvents
+@onready var game_container: GameContainer = $"../CanvasLayer/GameContainer"
 
 const BALL = preload("res://systems/ping_pong/ball.tscn")
 var ball: Ball
 var state := State.IDLE
-@onready var game_state: GameState
+var game_state: GameState
+
+signal red_points(value: int)
+signal blue_points(value: int)
 
 enum State {
 	IDLE,
@@ -24,7 +29,8 @@ func _ready() -> void:
 
 func start_game(serving_team: Data.Team) -> void:
 	game_state = GameState.new(serving_team, pong_map.table)
-	game_state.on_point.connect(_on_game_state_on_point)
+	game_events.setup(game_state)
+	game_container.setup(game_events)
 	set_serve(serving_team)
 
 
@@ -43,5 +49,6 @@ func set_serve(serving_team: Data.Team) -> void:
 
 	state = State.SERVING
 
-func _on_game_state_on_point() -> void:
+
+func _on_game_events_restart_game() -> void:
 	set_serve(game_state.get_serving_team())

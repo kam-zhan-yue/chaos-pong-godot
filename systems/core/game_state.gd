@@ -8,7 +8,9 @@ var round := 0
 var blue := 0
 var red := 0
 
-signal on_point
+signal on_blue_point(value: int)
+signal on_red_point(value: int)
+
 
 func _init(start := Data.Team.NONE, table: Table = null):
 	self.start = start
@@ -30,12 +32,12 @@ func point(side: Data.Team):
 func red_point():
 	print('Point for Red')
 	red += 1
-	on_point.emit()
+	on_red_point.emit(red)
 
 func blue_point():
 	print('Point for Blue')
 	blue += 1
-	on_point.emit()
+	on_blue_point.emit(blue)
 	
 func get_serving_team() -> Data.Team:
 	var swap := (blue + red) % 4 >= 2
