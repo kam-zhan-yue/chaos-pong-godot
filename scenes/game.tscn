@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bo5fecdi1rmdb"]
+[gd_scene load_steps=4 format=3 uid="uid://bo5fecdi1rmdb"]
 
-[ext_resource type="PackedScene" uid="uid://cke5a4ghljpt0" path="res://scenes/pong_map.tscn" id="1_gqvsv"]
-[ext_resource type="PackedScene" uid="uid://c2peoufqcin88" path="res://actors/wizard.tscn" id="2_8wa4w"]
+[ext_resource type="PackedScene" uid="uid://cke5a4ghljpt0" path="res://scenes/game_map.tscn" id="1_leyym"]
 [ext_resource type="PackedScene" uid="uid://c6urxg0rblekg" path="res://ui/game_ui.tscn" id="4_6obql"]
 [ext_resource type="PackedScene" uid="uid://dej2t0irhfis3" path="res://systems/core/game_manager.tscn" id="4_ckd20"]
 
@@ -11,13 +10,7 @@ texture_filter = 1
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
-[node name="PongMap" parent="." instance=ExtResource("1_gqvsv")]
-
-[node name="BlueWizard" parent="PongMap" instance=ExtResource("2_8wa4w")]
-position = Vector2(-102, 61)
-
-[node name="RedWizard" parent="PongMap" instance=ExtResource("2_8wa4w")]
-position = Vector2(98, -41)
+[node name="GameMap" parent="." instance=ExtResource("1_leyym")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

@@ -1,13 +1,14 @@
 extends Node2D
 
-@onready var pong_map := $"../PongMap" as PongMap
-@onready var blue_wizard: Wizard = $"../PongMap/BlueWizard" as Wizard
-@onready var red_wizard: Wizard = $"../PongMap/RedWizard" as Wizard
+@onready var game_map: GameMap = $"../GameMap"
 @onready var game := $".." as Node2D
 @onready var game_events := %GameEvents as GameEvents
-@onready var game_container: GameContainer = $"../CanvasLayer/GameContainer"
-
+@onready var game_container := $"../CanvasLayer/GameContainer" as GameContainer
+const WIZARD = preload("res://actors/wizard.tscn")
 const BALL = preload("res://systems/ping_pong/ball.tscn")
+
+var red_wizard: Wizard
+var blue_wizard: Wizard
 var ball: Ball
 var state := State.IDLE
 var game_state: GameState
@@ -23,12 +24,20 @@ enum State {
 }
 
 func _ready() -> void:
-	blue_wizard.init(Data.Team.BLUE)
-	red_wizard.init(Data.Team.RED)
+	setup_game()
 	start_game(Data.Team.RED)
+	
+func setup_game() -> void:
+	red_wizard = WIZARD.instantiate() as Wizard
+	blue_wizard = WIZARD.instantiate() as Wizard
+	red_wizard.init(Data.Team.RED)
+	blue_wizard.init(Data.Team.BLUE)
+	game_map.red_spawn.add_child(red_wizard)
+	game_map.blue_spawn.add_child(blue_wizard)
+	
 
 func start_game(serving_team: Data.Team) -> void:
-	game_state = GameState.new(serving_team, pong_map.table)
+	game_state = GameState.new(serving_team, game_map.table)
 	game_events.setup(game_state)
 	game_container.setup(game_events)
 	set_serve(serving_team)

@@ -18,7 +18,6 @@ func _init(start := Data.Team.NONE, table: Table = null):
 
 func hit(side: Data.Team):
 	possession = side
-	print('Possession is now: ', Data.get_team(side))
 	
 func point(side: Data.Team):
 	match side:
@@ -30,12 +29,10 @@ func point(side: Data.Team):
 			print('No point as possession is none')
 
 func red_point():
-	print('Point for Red')
 	red += 1
 	on_red_point.emit(red)
 
 func blue_point():
-	print('Point for Blue')
 	blue += 1
 	on_blue_point.emit(blue)
 	
