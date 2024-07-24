@@ -11,6 +11,7 @@ var state := PointState.WAITING
 
 signal blue_points(value: int)
 signal red_points(value: int)
+signal on_serve(team: Data.Team)
 signal restart
 
 enum PointState {
@@ -21,6 +22,10 @@ enum PointState {
 func _init(start := Data.Team.NONE, table: Table = null):
 	self.start = start
 	self.table = table
+
+func serve(side: Data.Team):
+	on_serve.emit(side)
+	possession = side
 
 func hit(side: Data.Team):
 	possession = side

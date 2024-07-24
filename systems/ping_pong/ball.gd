@@ -43,7 +43,7 @@ func serve(serving_side: Data.Team) -> void:
 	var table_position := game_state.table.get_table_position(opposite)
 	bounces = 0
 	launch(table_position)
-	game_state.hit(possession)
+	game_state.serve(possession)
 	
 func can_return(hitting_side: Data.Team) -> bool:
 	return bounces == 1 and hitting_side != possession

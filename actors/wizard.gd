@@ -14,13 +14,13 @@ var state := WizardState.IDLE
 var ball: Ball
 
 signal on_dead(team: Data.Team)
-signal serve(team: Data.Team)
+signal on_serve(team: Data.Team)
 const SPEED := 200.0
 
 const FIREBALL = preload("res://systems/magic/fireball.tscn")
 
 func _physics_process(delta: float) -> void:
-	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var direction := Input.get_vector("p1_move_left", "p1_move_right", "p1_move_up", "p1_move_down")
 	var isometric := Vector2(direction.x, direction.y * 0.5).normalized()
 	self.velocity = isometric * SPEED
 	if state == WizardState.SERVING and ball:
@@ -37,6 +37,9 @@ func idle() -> void:
 
 func reinit() -> void:
 	health.setup(team)
+
+func set_idle() -> void:
+	state = WizardState.IDLE
 
 func set_serving(ball: Ball) -> void:
 	state = WizardState.SERVING
@@ -59,7 +62,10 @@ func hit() -> void:
 		WizardState.RETURNING:
 			paddle.try_return(team)
 
+
 func shoot() -> void:
+	if state != WizardState.RETURNING:
+		return
 	var fireball := FIREBALL.instantiate() as Fireball
 	fireball.setup(team)
 	get_parent().add_child(fireball)

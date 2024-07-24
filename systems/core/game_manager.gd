@@ -43,12 +43,12 @@ func setup_game() -> void:
 func start_game(serving_team: Data.Team) -> void:
 	game_state = GameState.new(serving_team, game_map.table)
 	game_state.restart.connect(_restart_game)
+	game_state.on_serve.connect(_on_serve)
 	game_container.setup(game_state)
 	set_serve(serving_team)
 
 
 func set_serve(serving_team: Data.Team) -> void:
-	print('set serve')
 	ball = BALL.instantiate() as Ball
 	ball.init(game_state)
 	self.add_child(ball)
@@ -58,10 +58,10 @@ func set_serve(serving_team: Data.Team) -> void:
 
 	if serving_team == Data.Team.BLUE:
 		blue_wizard.set_serving(ball)
-		red_wizard.set_returning()
+		red_wizard.set_idle()
 	elif serving_team == Data.Team.RED:
 		red_wizard.set_serving(ball)
-		blue_wizard.set_returning()
+		blue_wizard.set_idle()
 	state = State.SERVING
 
 
@@ -84,6 +84,9 @@ func _restart_game() -> void:
 	await lerp_positions()
 	set_serve(game_state.get_serving_team())
 
+func _on_serve(team: Data.Team) -> void:
+	var opposite := Data.get_opposite(team)
+	get_wizard(opposite).set_returning()
 
 func _on_wizard_dead(team: Data.Team) -> void:
 	if game_state.can_score():
@@ -92,3 +95,9 @@ func _on_wizard_dead(team: Data.Team) -> void:
 		ball.queue_free()
 		game_state.point(Data.get_opposite(team))
 	
+func get_wizard(team: Data.Team) -> Wizard:
+	if team == Data.Team.BLUE:
+		return blue_wizard
+	elif team == Data.Team.RED:
+		return red_wizard
+	return null
