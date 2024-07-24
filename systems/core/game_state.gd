@@ -7,11 +7,16 @@ var start := Data.Team.NONE
 var round := 0
 var blue := 0
 var red := 0
+var state := PointState.WAITING
 
 signal blue_points(value: int)
 signal red_points(value: int)
 signal restart
 
+enum PointState {
+	WAITING,
+	SCORED
+}
 
 func _init(start := Data.Team.NONE, table: Table = null):
 	self.start = start
@@ -20,7 +25,13 @@ func _init(start := Data.Team.NONE, table: Table = null):
 func hit(side: Data.Team):
 	possession = side
 	
+func can_score() -> bool:
+	return state != PointState.SCORED
+	
 func point(side: Data.Team):
+	if not can_score():
+		return
+	state = PointState.SCORED
 	match side:
 		Data.Team.RED:
 			red_point()
@@ -43,3 +54,4 @@ func get_serving_team() -> Data.Team:
 
 func restart_game() -> void:
 	restart.emit()
+	state = PointState.WAITING

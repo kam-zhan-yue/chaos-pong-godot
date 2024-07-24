@@ -29,8 +29,13 @@ func _ready() -> void:
 func setup_game() -> void:
 	red_wizard = WIZARD.instantiate() as Wizard
 	blue_wizard = WIZARD.instantiate() as Wizard
+	
 	red_wizard.init(Data.Team.RED)
 	blue_wizard.init(Data.Team.BLUE)
+	
+	red_wizard.on_dead.connect(_on_wizard_dead)
+	blue_wizard.on_dead.connect(_on_wizard_dead)
+	
 	game_map.red_spawn.add_child(red_wizard)
 	game_map.blue_spawn.add_child(blue_wizard)
 	
@@ -47,6 +52,9 @@ func set_serve(serving_team: Data.Team) -> void:
 	ball = BALL.instantiate() as Ball
 	ball.init(game_state)
 	self.add_child(ball)
+	
+	red_wizard.reinit()
+	blue_wizard.reinit()
 
 	if serving_team == Data.Team.BLUE:
 		blue_wizard.set_serving(ball)
@@ -54,8 +62,8 @@ func set_serve(serving_team: Data.Team) -> void:
 	elif serving_team == Data.Team.RED:
 		red_wizard.set_serving(ball)
 		blue_wizard.set_returning()
-
 	state = State.SERVING
+
 
 func lerp_positions() -> void:
 	lerp_transform(blue_wizard, game_map.blue_spawn, 0.5)
@@ -75,3 +83,12 @@ func lerp_transform(wizard: Wizard, spawn: Marker2D, duration: float):
 func _restart_game() -> void:
 	await lerp_positions()
 	set_serve(game_state.get_serving_team())
+
+
+func _on_wizard_dead(team: Data.Team) -> void:
+	if game_state.can_score():
+		red_wizard.idle()
+		blue_wizard.idle()
+		ball.queue_free()
+		game_state.point(Data.get_opposite(team))
+	

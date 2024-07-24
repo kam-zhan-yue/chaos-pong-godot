@@ -13,9 +13,12 @@ script = ExtResource("1_ph0qx")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_7eeb3")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="CollisionBox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionBox"]
 shape = SubResource("CircleShape2D_l5i38")
+
+[connection signal="area_entered" from="CollisionBox" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="CollisionBox" to="." method="_on_collision_box_area_entered"]

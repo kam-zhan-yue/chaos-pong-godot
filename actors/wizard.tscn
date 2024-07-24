@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2peoufqcin88"]
+[gd_scene load_steps=8 format=3 uid="uid://c2peoufqcin88"]
 
 [ext_resource type="Texture2D" uid="uid://bwuh1svguartb" path="res://icon.svg" id="1_mobsc"]
 [ext_resource type="Script" path="res://actors/wizard.gd" id="1_p5emb"]
 [ext_resource type="PackedScene" uid="uid://cp1q2dw3vfb0m" path="res://systems/ping_pong/paddle.tscn" id="3_7feef"]
 [ext_resource type="Script" path="res://systems/ping_pong/paddle.gd" id="4_bj0p7"]
+[ext_resource type="Script" path="res://actors/health.gd" id="5_gjtgc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yt0no"]
 radius = 35.3553
@@ -36,11 +37,14 @@ script = ExtResource("4_bj0p7")
 [node name="BallSpawn" type="Marker2D" parent="."]
 position = Vector2(85, -145)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Health" type="Area2D" parent="."]
+unique_name_in_owner = true
 collision_layer = 4
 collision_mask = 4
+script = ExtResource("5_gjtgc")
 
-[node name="HurtBox" type="CollisionShape2D" parent="Area2D"]
+[node name="HurtBox" type="CollisionShape2D" parent="Health"]
 position = Vector2(0, -90)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_gclr7")
+
+[connection signal="on_dead" from="Health" to="." method="_on_health_on_dead"]

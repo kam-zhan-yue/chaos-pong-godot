@@ -8,10 +8,12 @@ enum WizardState {
 }
 @onready var paddle := $Paddle as Paddle
 @onready var ball_spawn := $BallSpawn as Marker2D
+@onready var health := %Health as Health
 var team := Data.Team.NONE
 var state := WizardState.IDLE
 var ball: Ball
 
+signal on_dead(team: Data.Team)
 signal serve(team: Data.Team)
 const SPEED := 200.0
 
@@ -27,6 +29,14 @@ func _physics_process(delta: float) -> void:
 	
 func init(team_side: Data.Team) -> void:
 	team = team_side
+	health = %Health as Health
+	health.setup(team)
+
+func idle() -> void:
+	state = WizardState.IDLE
+
+func reinit() -> void:
+	health.setup(team)
 
 func set_serving(ball: Ball) -> void:
 	state = WizardState.SERVING
@@ -54,3 +64,8 @@ func shoot() -> void:
 	fireball.setup(team)
 	get_parent().add_child(fireball)
 	fireball.global_position = ball_spawn.global_position
+
+
+func _on_health_on_dead() -> void:
+	on_dead.emit(team)
+	
