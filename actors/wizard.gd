@@ -15,6 +15,8 @@ var ball: Ball
 signal serve(team: Data.Team)
 const SPEED := 200.0
 
+const FIREBALL = preload("res://systems/magic/fireball.tscn")
+
 func _physics_process(delta: float) -> void:
 	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var isometric := Vector2(direction.x, direction.y * 0.5).normalized()
@@ -34,13 +36,21 @@ func set_returning() -> void:
 	state = WizardState.RETURNING
 
 func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("hit"):
+		hit()
 	if Input.is_action_just_pressed("shoot"):
 		shoot()
 
-func shoot() -> void:
+func hit() -> void:
 	match state:
 		WizardState.SERVING:
 			ball.serve(team)
 			set_returning()
 		WizardState.RETURNING:
 			paddle.try_return(team)
+
+func shoot() -> void:
+	var fireball := FIREBALL.instantiate() as Fireball
+	fireball.setup(team)
+	get_parent().add_child(fireball)
+	fireball.global_position = ball_spawn.global_position

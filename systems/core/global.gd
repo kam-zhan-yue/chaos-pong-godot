@@ -13,6 +13,12 @@ func set_active(node: Node) -> void:
 func set_inactive(node: Node) -> void:
 	active(node, false)
 
+func to_blue() -> Vector2:
+	return Vector2(-1.0, 0.5).normalized()
+
+func to_red() -> Vector2:
+	return Vector2(1.0, -0.5).normalized()
+
 func active(node: Node, active: bool) -> void:
 	# Set visibility
 	node.visible = active

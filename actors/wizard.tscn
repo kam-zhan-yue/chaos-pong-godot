@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2peoufqcin88"]
+[gd_scene load_steps=7 format=3 uid="uid://c2peoufqcin88"]
 
 [ext_resource type="Texture2D" uid="uid://bwuh1svguartb" path="res://icon.svg" id="1_mobsc"]
 [ext_resource type="Script" path="res://actors/wizard.gd" id="1_p5emb"]
@@ -7,6 +7,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yt0no"]
 radius = 35.3553
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gclr7"]
+size = Vector2(125, 71.25)
 
 [node name="Wizard" type="CharacterBody2D"]
 z_index = 1
@@ -32,3 +35,12 @@ script = ExtResource("4_bj0p7")
 
 [node name="BallSpawn" type="Marker2D" parent="."]
 position = Vector2(85, -145)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="HurtBox" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -90)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_gclr7")
