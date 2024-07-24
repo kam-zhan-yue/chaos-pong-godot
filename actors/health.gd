@@ -11,9 +11,10 @@ func setup(team: Data.Team) -> void:
 	self.team = team
 	health = max_health
 
-func damage(amount: float, other: Data.Team) -> void:
-	if other == team:
-		return
+func can_damage(other: Data.Team) -> bool:
+	return other != team
+
+func damage(amount: float) -> void:
 	print("%s damaged for %f" % [Data.get_team(team), amount])
 	health -= amount
 	if health <= 0:
