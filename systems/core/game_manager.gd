@@ -26,11 +26,12 @@ enum State {
 }
 
 func _ready() -> void:
+	init_players()
 	setup_game()
 	if GAME_SETTINGS.start_immediately:
 		game_state.start()
 	
-func setup_game() -> void:
+func init_players() -> void:
 	red_wizard = WIZARD.instantiate() as Wizard
 	blue_wizard = WIZARD.instantiate() as Wizard
 	
@@ -42,11 +43,13 @@ func setup_game() -> void:
 	
 	game_map.red_spawn.add_child(red_wizard)
 	game_map.blue_spawn.add_child(blue_wizard)
-	
+
+func setup_game() -> void:
 	game_state = GameState.new(game_map.table)
 	game_state.on_start.connect(_start_game)
 	game_state.on_restart.connect(_restart_game)
 	game_state.on_serve.connect(_on_serve)
+	game_state.on_new_game.connect(_on_new_game)
 	
 	game_container.setup(game_state)
 
@@ -107,3 +110,7 @@ func get_wizard(team: Data.Team) -> Wizard:
 	elif team == Data.Team.RED:
 		return red_wizard
 	return null
+
+func _on_new_game() -> void:
+	setup_game()
+	game_state.start()

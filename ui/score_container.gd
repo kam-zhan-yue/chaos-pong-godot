@@ -6,11 +6,13 @@ extends Control
 @onready var score_popup := %ScorePopup as CenterContainer
 @onready var blue_popup := %BluePopup as Label
 @onready var red_popup := %RedPopup as Label
+@onready var game_point := %GamePoint as CenterContainer
 
 var game_state: GameState
 
 func _ready() -> void:
 	Global.set_inactive(score_popup)
+	Global.set_inactive(game_point)
 
 func setup(state: GameState) -> void:
 	game_state = state
@@ -33,7 +35,13 @@ func score_anim() -> void:
 	Global.set_inactive(score_top_container)
 	Global.set_active(score_popup)
 	await Global.seconds(1.0)
-	Global.set_active(score_top_container)
 	Global.set_inactive(score_popup)
+	
+	if game_state.game_point():
+		Global.set_active(game_point)
+		await Global.seconds(1.0)
+		Global.set_inactive(game_point)
+		
+	Global.set_active(score_top_container)
 	
 	game_state.restart_game()
