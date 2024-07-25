@@ -6,10 +6,17 @@ enum WizardState {
 	SERVING,
 	RETURNING
 }
+
+# Player Variables
+var id := 0
+var team := Data.Team.NONE
+var controls := Data.ControlScheme.KEYBOARD
+
+# Nodes
 @onready var paddle := $Paddle as Paddle
 @onready var ball_spawn := $BallSpawn as Marker2D
 @onready var health := %Health as Health
-var team := Data.Team.NONE
+
 var state := WizardState.IDLE
 var ball: Ball
 
@@ -20,15 +27,21 @@ const SPEED := 200.0
 const FIREBALL = preload("res://systems/magic/fireball.tscn")
 
 func _physics_process(delta: float) -> void:
-	var direction := Input.get_vector("p1_move_left", "p1_move_right", "p1_move_up", "p1_move_down")
+	var direction := Input.get_vector(
+										Data.get_input(controls, "move_left"), 
+										Data.get_input(controls, "move_right"), 
+										Data.get_input(controls, "move_up"),
+										Data.get_input(controls, "move_down")
+										)
 	var isometric := Vector2(direction.x, direction.y * 0.5).normalized()
 	self.velocity = isometric * SPEED
 	if state == WizardState.SERVING and ball:
 		ball.move(ball_spawn.global_position)
 	move_and_slide()
 	
-func init(team_side: Data.Team) -> void:
+func init(id: int, control_scheme: Data.ControlScheme, team_side: Data.Team) -> void:
 	team = team_side
+	controls = control_scheme
 	health = %Health as Health
 	health.setup(team)
 
@@ -49,9 +62,9 @@ func set_returning() -> void:
 	state = WizardState.RETURNING
 
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("hit"):
+	if Input.is_action_just_pressed(Data.get_input(controls, "hit")):
 		hit()
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed(Data.get_input(controls, "shoot")):
 		shoot()
 
 func hit() -> void:

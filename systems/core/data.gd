@@ -1,6 +1,7 @@
 extends Node
 
 enum Team {NONE, RED, BLUE}
+enum ControlScheme {KEYBOARD, CONTROLLER}
 
 func get_opposite(team: Team) -> Team:
 	if team == Team.RED:
@@ -20,3 +21,8 @@ func get_team(team: Team) -> String:
 			return 'Blue'
 		_:
 			return 'None'
+
+func get_input(scheme: ControlScheme, input: String) -> String:
+	if scheme == ControlScheme.CONTROLLER:
+		return "joy_"+input
+	return input

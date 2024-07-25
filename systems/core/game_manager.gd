@@ -25,13 +25,14 @@ enum State {
 func _ready() -> void:
 	setup_game()
 	start_game(Data.Team.RED)
+	print("Joy 0: ", Input.get_joy_name(0))
 	
 func setup_game() -> void:
 	red_wizard = WIZARD.instantiate() as Wizard
 	blue_wizard = WIZARD.instantiate() as Wizard
 	
-	red_wizard.init(Data.Team.RED)
-	blue_wizard.init(Data.Team.BLUE)
+	red_wizard.init(0, Data.ControlScheme.KEYBOARD, Data.Team.RED)
+	blue_wizard.init(1, Data.ControlScheme.CONTROLLER, Data.Team.BLUE)
 	
 	red_wizard.on_dead.connect(_on_wizard_dead)
 	blue_wizard.on_dead.connect(_on_wizard_dead)
