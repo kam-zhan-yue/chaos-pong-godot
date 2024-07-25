@@ -3,8 +3,11 @@ extends Node2D
 @onready var game_map: GameMap = $"../GameMap"
 @onready var game := $".." as Node2D
 @onready var game_container := $"../CanvasLayer/GameContainer" as GameContainer
+
+# Instantiation
 const WIZARD = preload("res://actors/wizard.tscn")
 const BALL = preload("res://systems/ping_pong/ball.tscn")
+const GAME_SETTINGS = preload("res://systems/resources/game_settings.tres")
 
 var red_wizard: Wizard
 var blue_wizard: Wizard
@@ -24,8 +27,8 @@ enum State {
 
 func _ready() -> void:
 	setup_game()
-	start_game(Data.Team.RED)
-	print("Joy 0: ", Input.get_joy_name(0))
+	if GAME_SETTINGS.start_immediately:
+		game_state.start()
 	
 func setup_game() -> void:
 	red_wizard = WIZARD.instantiate() as Wizard
@@ -40,13 +43,12 @@ func setup_game() -> void:
 	game_map.red_spawn.add_child(red_wizard)
 	game_map.blue_spawn.add_child(blue_wizard)
 	
-
-func start_game(serving_team: Data.Team) -> void:
-	game_state = GameState.new(serving_team, game_map.table)
-	game_state.restart.connect(_restart_game)
+	game_state = GameState.new(game_map.table)
+	game_state.on_start.connect(_start_game)
+	game_state.on_restart.connect(_restart_game)
 	game_state.on_serve.connect(_on_serve)
+	
 	game_container.setup(game_state)
-	set_serve(serving_team)
 
 
 func set_serve(serving_team: Data.Team) -> void:
@@ -81,6 +83,9 @@ func lerp_transform(wizard: Wizard, spawn: Marker2D, duration: float):
 		await Global.frame()
 	wizard.global_position = spawn.global_position
 	
+func _start_game(serving: Data.Team) -> void:
+	set_serve(serving)
+
 func _restart_game() -> void:
 	await lerp_positions()
 	set_serve(game_state.get_serving_team())

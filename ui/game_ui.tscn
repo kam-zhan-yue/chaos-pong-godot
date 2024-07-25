@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6urxg0rblekg"]
+[gd_scene load_steps=4 format=3 uid="uid://c6urxg0rblekg"]
 
 [ext_resource type="Script" path="res://ui/game_container.gd" id="1_2awnt"]
 [ext_resource type="PackedScene" uid="uid://bwuaqb8xgrbfg" path="res://ui/score_container.tscn" id="2_18du4"]
+[ext_resource type="PackedScene" uid="uid://cacqo5e1pnf1v" path="res://ui/start_container.tscn" id="3_7pea6"]
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
@@ -17,5 +18,9 @@ grow_vertical = 2
 script = ExtResource("1_2awnt")
 
 [node name="ScoreContainer" parent="." instance=ExtResource("2_18du4")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="StartContainer" parent="." instance=ExtResource("3_7pea6")]
 unique_name_in_owner = true
 layout_mode = 1
