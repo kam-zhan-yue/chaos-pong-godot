@@ -54,23 +54,6 @@ func setup_game() -> void:
 	game_container.setup(game_state)
 
 
-func set_serve(serving_team: Data.Team) -> void:
-	ball = BALL.instantiate() as Ball
-	ball.init(game_state)
-	self.add_child(ball)
-	
-	red_wizard.reinit()
-	blue_wizard.reinit()
-
-	if serving_team == Data.Team.BLUE:
-		blue_wizard.set_serving(ball)
-		red_wizard.set_idle()
-	elif serving_team == Data.Team.RED:
-		red_wizard.set_serving(ball)
-		blue_wizard.set_idle()
-	state = State.SERVING
-
-
 func lerp_positions() -> void:
 	lerp_transform(blue_wizard, game_map.blue_spawn, 0.5)
 	await lerp_transform(red_wizard, game_map.red_spawn, 0.5)
@@ -91,28 +74,44 @@ func _start_game(serving: Data.Team) -> void:
 
 func _restart_game() -> void:
 	await lerp_positions()
-	init_round()
+	init_round(game_state.get_serving_team())
 
-func init_round() -> void:
+func init_round(serving: Data.Team) -> void:
 	var round_type := game_state.get_round_type()
-	print('Round Type is : ', Data.round_type(round_type))
 	red_wizard.set_round_type(round_type)
 	blue_wizard.set_round_type(round_type)
 	game_state.init_round(round_type)
+	if round_type != Data.RoundType.MAGIC:
+		set_serve(serving)
 
-func _on_pong_game(serving: Data.Team) -> void:
-	set_serve(serving)
+func set_serve(serving_team: Data.Team) -> void:
+	ball = BALL.instantiate() as Ball
+	ball.init(game_state)
+	self.add_child(ball)
+	
+	red_wizard.reinit()
+	blue_wizard.reinit()
+
+	if serving_team == Data.Team.BLUE:
+		blue_wizard.set_serving(ball)
+		red_wizard.set_idle()
+	elif serving_team == Data.Team.RED:
+		red_wizard.set_serving(ball)
+		blue_wizard.set_idle()
+	state = State.SERVING
 
 func _on_serve(team: Data.Team) -> void:
 	var opposite := Data.get_opposite(team)
 	get_wizard(opposite).set_returning()
 
 func _on_wizard_dead(team: Data.Team) -> void:
-	if game_state.can_score():
-		red_wizard.idle()
-		blue_wizard.idle()
+	if not game_state.can_score():
+		return
+	if game_state.get_round_type() != Data.RoundType.MAGIC:
 		ball.queue_free()
-		game_state.point(Data.get_opposite(team))
+	red_wizard.idle()
+	blue_wizard.idle()
+	game_state.point(Data.get_opposite(team))
 	
 func get_wizard(team: Data.Team) -> Wizard:
 	if team == Data.Team.BLUE:

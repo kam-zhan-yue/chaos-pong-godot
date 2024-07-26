@@ -15,7 +15,7 @@ func can_damage(other: Data.Team) -> bool:
 	return other != team
 
 func damage(amount: float) -> void:
-	print("%s damaged for %f" % [Data.get_team(team), amount])
+	#print("%s damaged for %f" % [Data.get_team(team), amount])
 	health -= amount
 	if health <= 0:
 		on_dead.emit()

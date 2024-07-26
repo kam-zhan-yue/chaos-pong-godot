@@ -43,6 +43,12 @@ func start() -> void:
 	state = PointState.WAITING
 	on_start.emit(self.serving)
 
+func init_round(round_type: Data.RoundType) -> void:
+	if round_type == Data.RoundType.MAGIC:
+		Global.set_inactive(table)
+	else:
+		Global.set_active(table)
+
 func get_round_type() -> Data.RoundType:
 	var rounds = get_rounds()
 	if tutorial_system:
@@ -52,7 +58,6 @@ func get_round_type() -> Data.RoundType:
 			return Data.get_round_type(rounds - tutorial_system.rounds()-1)
 	else:
 		return Data.get_round_type(rounds)
-			
 
 func get_rounds() -> int:
 	return red + blue + 1
