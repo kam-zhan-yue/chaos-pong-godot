@@ -10,7 +10,7 @@ var start := Vector2.ZERO
 var end := Vector2.ZERO
 var game_state: GameState
 var bounces := 0
-var time_scale := 1.0
+var time_scale := 3.0
 
 func init(game_state: GameState) -> void:
 	self.game_state = game_state

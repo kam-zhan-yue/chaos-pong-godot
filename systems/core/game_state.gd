@@ -2,17 +2,20 @@ class_name GameState
 extends Node
 
 # Game Constants
-const GAME_POINT = 2
+const GAME_POINT = 11
+
+# Systems
+var tutorial_system: TutorialSystem
 
 # Game Variables
 var table: Table
 var possession := Data.Team.NONE
 var serving := Data.Team.NONE
-var round := 0
 var blue := 0
 var red := 0
 var state := PointState.WAITING
 
+# Signals
 signal blue_points(value: int)
 signal red_points(value: int)
 signal on_serve(team: Data.Team)
@@ -28,17 +31,31 @@ enum PointState {
 	SCORED
 }
 
-func _init(table: Table = null):
+func _init(table: Table = null) -> void:
 	self.table = table
+	self.tutorial_system = TutorialSystem.new()
 
-func start():
+func start() -> void:
 	self.serving = GAME_SETTINGS.serving_team
 	possession = Data.Team.NONE
-	round = 0
 	blue = 0
 	red = 0
 	state = PointState.WAITING
 	on_start.emit(self.serving)
+
+func get_round_type() -> Data.RoundType:
+	var rounds = get_rounds()
+	if tutorial_system:
+		if not tutorial_system.over(rounds):
+			return tutorial_system.get_round_type(rounds)
+		else:
+			return Data.get_round_type(rounds - tutorial_system.rounds()-1)
+	else:
+		return Data.get_round_type(rounds)
+			
+
+func get_rounds() -> int:
+	return red + blue + 1
 
 func serve(side: Data.Team):
 	on_serve.emit(side)
@@ -68,8 +85,6 @@ func red_point():
 		on_win.emit(get_winner())
 	else:
 		red_points.emit(red)
-		print('Game Point is: ', game_point())
-		print('Winner is: ', Data.get_team(get_winner()))
 
 func blue_point():
 	blue += 1
@@ -77,8 +92,6 @@ func blue_point():
 		on_win.emit(get_winner())
 	else:
 		blue_points.emit(blue)
-		print('Game Point is: ', game_point())
-		print('Winner is: ', Data.get_team(get_winner()))
 	
 func get_serving_team() -> Data.Team:
 	var swap := (blue + red) % 4 >= 2

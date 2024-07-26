@@ -17,6 +17,7 @@ var controls := Data.ControlScheme.KEYBOARD
 @onready var ball_spawn := $BallSpawn as Marker2D
 @onready var health := %Health as Health
 
+var round_type: Data.RoundType
 var state := WizardState.IDLE
 var ball: Ball
 
@@ -61,10 +62,13 @@ func set_serving(ball: Ball) -> void:
 func set_returning() -> void:
 	state = WizardState.RETURNING
 
+func set_round_type(round_type: Data.RoundType) -> void:
+	self.round_type = round_type
+
 func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed(Data.get_input(controls, "hit")):
+	if round_type != Data.RoundType.MAGIC and Input.is_action_just_pressed(Data.get_input(controls, "hit")):
 		hit()
-	if Input.is_action_just_pressed(Data.get_input(controls, "shoot")):
+	if round_type != Data.Roundtype.PONG and Input.is_action_just_pressed(Data.get_input(controls, "shoot")):
 		shoot()
 
 func hit() -> void:

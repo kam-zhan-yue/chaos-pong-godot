@@ -36,7 +36,7 @@ func init_players() -> void:
 	blue_wizard = WIZARD.instantiate() as Wizard
 	
 	red_wizard.init(0, Data.ControlScheme.KEYBOARD, Data.Team.RED)
-	blue_wizard.init(1, Data.ControlScheme.CONTROLLER, Data.Team.BLUE)
+	blue_wizard.init(1, Data.ControlScheme.KEYBOARD, Data.Team.BLUE)
 	
 	red_wizard.on_dead.connect(_on_wizard_dead)
 	blue_wizard.on_dead.connect(_on_wizard_dead)
@@ -87,11 +87,21 @@ func lerp_transform(wizard: Wizard, spawn: Marker2D, duration: float):
 	wizard.global_position = spawn.global_position
 	
 func _start_game(serving: Data.Team) -> void:
-	set_serve(serving)
+	init_round(serving)
 
 func _restart_game() -> void:
 	await lerp_positions()
-	set_serve(game_state.get_serving_team())
+	init_round()
+
+func init_round() -> void:
+	var round_type := game_state.get_round_type()
+	print('Round Type is : ', Data.round_type(round_type))
+	red_wizard.set_round_type(round_type)
+	blue_wizard.set_round_type(round_type)
+	game_state.init_round(round_type)
+
+func _on_pong_game(serving: Data.Team) -> void:
+	set_serve(serving)
 
 func _on_serve(team: Data.Team) -> void:
 	var opposite := Data.get_opposite(team)
