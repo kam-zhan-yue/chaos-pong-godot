@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_yhd20")
-start_immediately = false
+start_immediately = true
 serving_team = 1

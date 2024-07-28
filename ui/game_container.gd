@@ -4,6 +4,8 @@ extends Control
 @onready var score_container := %ScoreContainer as ScoreContainer
 @onready var start_container := %StartContainer as StartContainer
 @onready var game_over_container := $GameOverContainer as GameOverContainer
+@onready var tutorial_container := %TutorialContainer as TutorialContainer
+
 var game_state: GameState
 
 const GAME_SETTINGS = preload("res://systems/resources/game_settings.tres")
@@ -18,6 +20,7 @@ func setup(state: GameState) -> void:
 	game_state.on_win.connect(_on_win)
 	score_container.setup(game_state)
 	start_container.setup(game_state)
+	tutorial_container.setup(game_state.tutorial_system)
 	game_over_container.on_restart.connect(_on_restart)
 
 func _on_win(team: Data.Team) -> void:

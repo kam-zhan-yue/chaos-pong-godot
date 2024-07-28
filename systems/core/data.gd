@@ -4,6 +4,15 @@ enum Team {NONE, RED, BLUE}
 enum ControlScheme {KEYBOARD, CONTROLLER}
 enum RoundType {PONG, MAGIC, DUAL}
 
+func get_movement_vector(controls: ControlScheme) -> Vector2:
+	var direction := Input.get_vector(
+										get_input(controls, "move_left"), 
+										get_input(controls, "move_right"), 
+										get_input(controls, "move_up"),
+										get_input(controls, "move_down")
+										)
+	return direction
+
 func get_opposite(team: Team) -> Team:
 	if team == Team.RED:
 		return Team.BLUE

@@ -28,12 +28,7 @@ const SPEED := 200.0
 const FIREBALL = preload("res://systems/magic/fireball.tscn")
 
 func _physics_process(delta: float) -> void:
-	var direction := Input.get_vector(
-										Data.get_input(controls, "move_left"), 
-										Data.get_input(controls, "move_right"), 
-										Data.get_input(controls, "move_up"),
-										Data.get_input(controls, "move_down")
-										)
+	var direction := Data.get_movement_vector(controls)
 	var isometric := Vector2(direction.x, direction.y * 0.5).normalized()
 	self.velocity = isometric * SPEED
 	if state == WizardState.SERVING and ball:

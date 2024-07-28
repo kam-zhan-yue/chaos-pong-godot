@@ -19,6 +19,7 @@ var state := PointState.WAITING
 signal blue_points(value: int)
 signal red_points(value: int)
 signal on_serve(team: Data.Team)
+signal on_return(team: Data.Team)
 signal on_start(team: Data.Team)
 signal on_restart
 signal on_win(team: Data.Team)
@@ -34,6 +35,7 @@ enum PointState {
 func _init(table: Table = null) -> void:
 	self.table = table
 	self.tutorial_system = TutorialSystem.new()
+	add_child(self.tutorial_system)
 
 func start() -> void:
 	self.serving = GAME_SETTINGS.serving_team
@@ -44,13 +46,15 @@ func start() -> void:
 	on_start.emit(self.serving)
 
 func init_round(round_type: Data.RoundType) -> void:
+	tutorial_system.set_tutorial_type(get_rounds())
 	if round_type == Data.RoundType.MAGIC:
 		Global.set_inactive(table)
 	else:
 		Global.set_active(table)
+	
 
 func get_round_type() -> Data.RoundType:
-	var rounds = get_rounds()
+	var rounds := get_rounds()
 	if tutorial_system:
 		if not tutorial_system.over(rounds):
 			return tutorial_system.get_round_type(rounds)
@@ -63,10 +67,13 @@ func get_rounds() -> int:
 	return red + blue + 1
 
 func serve(side: Data.Team):
+	tutorial_system.emit_serve()
 	on_serve.emit(side)
 	possession = side
 
 func hit(side: Data.Team):
+	tutorial_system.emit_return()
+	on_return.emit(side)
 	possession = side
 	
 func can_score() -> bool:

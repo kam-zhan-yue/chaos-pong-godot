@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://pi3lw53bafv7"]
+
+[ext_resource type="Script" path="res://ui/instruction_label.gd" id="1_a5jqi"]
+
+[node name="InstructionLabel" type="RichTextLabel"]
+offset_right = 260.0
+offset_bottom = 23.0
+bbcode_enabled = true
+text = "[WASD] / [Left Joystick] to Move"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+script = ExtResource("1_a5jqi")

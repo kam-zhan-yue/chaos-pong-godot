@@ -24,7 +24,7 @@ y_sort_enabled = true
 position = Vector2(-0.999999, -61)
 texture = ExtResource("1_mobsc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Body" type="CollisionShape2D" parent="."]
 y_sort_enabled = true
 position = Vector2(-0.999999, -31)
 shape = SubResource("CircleShape2D_yt0no")

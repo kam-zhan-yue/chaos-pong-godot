@@ -46,6 +46,7 @@ func init_players() -> void:
 
 func setup_game() -> void:
 	game_state = GameState.new(game_map.table)
+	add_child(game_state)
 	game_state.on_start.connect(_start_game)
 	game_state.on_restart.connect(_restart_game)
 	game_state.on_serve.connect(_on_serve)
@@ -78,6 +79,7 @@ func _restart_game() -> void:
 
 func init_round(serving: Data.Team) -> void:
 	var round_type := game_state.get_round_type()
+	print('Round Type is : ', Data.round_type(round_type))
 	red_wizard.set_round_type(round_type)
 	blue_wizard.set_round_type(round_type)
 	game_state.init_round(round_type)

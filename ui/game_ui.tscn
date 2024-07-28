@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6urxg0rblekg"]
+[gd_scene load_steps=6 format=3 uid="uid://c6urxg0rblekg"]
 
 [ext_resource type="Script" path="res://ui/game_container.gd" id="1_2awnt"]
 [ext_resource type="PackedScene" uid="uid://bwuaqb8xgrbfg" path="res://ui/score_container.tscn" id="2_18du4"]
 [ext_resource type="PackedScene" uid="uid://cacqo5e1pnf1v" path="res://ui/start_container.tscn" id="3_7pea6"]
 [ext_resource type="PackedScene" uid="uid://b4fbk22nu3klc" path="res://ui/game_over_container.tscn" id="4_bkhyr"]
+[ext_resource type="PackedScene" uid="uid://cyqo6tr6s02dc" path="res://ui/tutorial_container.tscn" id="5_hmkjp"]
 
 [node name="GameUI" type="Control"]
 layout_mode = 3
@@ -26,5 +27,9 @@ unique_name_in_owner = true
 layout_mode = 1
 
 [node name="StartContainer" parent="." instance=ExtResource("3_7pea6")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="TutorialContainer" parent="." instance=ExtResource("5_hmkjp")]
 unique_name_in_owner = true
 layout_mode = 1

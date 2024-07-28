@@ -12,8 +12,8 @@ func _physics_process(delta: float) -> void:
 		velocity = speed * Global.to_red()
 	position += velocity
 
-func _on_collision_box_area_entered(area: Area2D) -> void:
-	if not area.has_method('can_damage') or not area.has_method('damage'):
+func _on_collision_box_area_entered(area) -> void:
+	if not area is Health:
 		return
 	if area.can_damage(team):
 		queue_free()
