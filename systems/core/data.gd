@@ -4,12 +4,12 @@ enum Team {NONE, RED, BLUE}
 enum ControlScheme {KEYBOARD, CONTROLLER}
 enum RoundType {PONG, MAGIC, DUAL}
 
-func get_movement_vector(controls: ControlScheme) -> Vector2:
+func get_movement_vector(id: int, controls: ControlScheme) -> Vector2:
 	var direction := Input.get_vector(
-										get_input(controls, "move_left"), 
-										get_input(controls, "move_right"), 
-										get_input(controls, "move_up"),
-										get_input(controls, "move_down")
+										get_input(id, controls, "move_left"), 
+										get_input(id, controls, "move_right"), 
+										get_input(id, controls, "move_up"),
+										get_input(id, controls, "move_down")
 										)
 	return direction
 
@@ -43,9 +43,9 @@ func round_type(round: RoundType) -> String:
 		_:
 			return 'None'
 
-func get_input(scheme: ControlScheme, input: String) -> String:
+func get_input(id: int, scheme: ControlScheme, input: String) -> String:
 	if scheme == ControlScheme.CONTROLLER:
-		return "joy_"+input
+		return str("joy_", id, "_", input)
 	return input
 
 func get_round_type(rounds: int) -> RoundType:

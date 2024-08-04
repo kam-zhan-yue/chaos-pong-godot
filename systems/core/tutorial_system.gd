@@ -26,13 +26,13 @@ var magic_games := 1
 
 func _input(event: InputEvent) -> void:
 	if tutorial == TutorialType.PONG or tutorial == TutorialType.DUAL:
-		var keyboard := Data.get_movement_vector(Data.ControlScheme.KEYBOARD)
-		var controller := Data.get_movement_vector(Data.ControlScheme.CONTROLLER)
+		var keyboard := Data.get_movement_vector(0, Data.ControlScheme.KEYBOARD)
+		var controller := Data.get_movement_vector(0, Data.ControlScheme.CONTROLLER)
 		if keyboard != Vector2.ZERO or controller != Vector2.ZERO:
 			on_move.emit()
 	elif tutorial == TutorialType.MAGIC or tutorial == TutorialType.DUAL:
-		var keyboard_shoot := Data.get_input(Data.ControlScheme.KEYBOARD, "shoot")
-		var controller_shoot := Data.get_input(Data.ControlScheme.CONTROLLER, "shoot")
+		var keyboard_shoot := Data.get_input(0, Data.ControlScheme.KEYBOARD, "shoot")
+		var controller_shoot := Data.get_input(0, Data.ControlScheme.CONTROLLER, "shoot")
 		if Input.is_action_just_pressed(keyboard_shoot) or Input.is_action_just_pressed(controller_shoot):
 			on_spell.emit()
 

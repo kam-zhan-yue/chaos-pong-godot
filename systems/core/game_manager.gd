@@ -35,8 +35,8 @@ func init_players() -> void:
 	red_wizard = WIZARD.instantiate() as Wizard
 	blue_wizard = WIZARD.instantiate() as Wizard
 	
-	red_wizard.init(0, Data.ControlScheme.KEYBOARD, Data.Team.RED)
-	blue_wizard.init(1, Data.ControlScheme.KEYBOARD, Data.Team.BLUE)
+	red_wizard.init(0, Data.ControlScheme.CONTROLLER, Data.Team.RED)
+	blue_wizard.init(1, Data.ControlScheme.CONTROLLER, Data.Team.BLUE)
 	
 	red_wizard.on_dead.connect(_on_wizard_dead)
 	blue_wizard.on_dead.connect(_on_wizard_dead)
