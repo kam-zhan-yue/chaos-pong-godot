@@ -14,8 +14,9 @@ var controls := Data.ControlScheme.KEYBOARD
 
 # Nodes
 @onready var paddle := $Paddle as Paddle
-@onready var ball_spawn := $BallSpawn as Marker2D
 @onready var health := %Health as Health
+@onready var red_spawn := %RedSpawn as Marker2D
+@onready var blue_spawn := %BlueSpawn as Marker2D
 
 var round_type := Data.RoundType.PONG
 var state := WizardState.IDLE
@@ -34,9 +35,10 @@ func _physics_process(delta: float) -> void:
 	var isometric := Vector2(direction.x, direction.y * 0.5).normalized()
 	self.velocity = isometric * SPEED
 	if state == WizardState.SERVING and ball:
-		ball.move(ball_spawn.global_position)
+		ball.move(get_projectile_spawn())
 	move_and_slide()
-	
+
+
 func init(id: int, control_scheme: Data.ControlScheme, team_side: Data.Team) -> void:
 	team = team_side
 	self.id = id
@@ -88,11 +90,18 @@ func shoot() -> void:
 	var fireball := FIREBALL.instantiate() as Fireball
 	fireball.setup(team)
 	get_parent().add_child(fireball)
-	fireball.global_position = ball_spawn.global_position
+	fireball.global_position = get_projectile_spawn()
 	
 	can_shoot = false
 	await Global.seconds(SPELL_COOLDOWN)
 	can_shoot = true
+
+func get_projectile_spawn() -> Vector2:
+	if team == Data.Team.RED:
+		return red_spawn.global_position
+	elif team == Data.Team.BLUE:
+		return blue_spawn.global_position
+	return Vector2.ZERO
 
 func _on_health_on_dead() -> void:
 	on_dead.emit(team)

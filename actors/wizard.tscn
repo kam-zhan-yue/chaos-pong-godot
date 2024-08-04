@@ -34,7 +34,13 @@ position = Vector2(5, -70)
 collision_layer = 2
 script = ExtResource("4_bj0p7")
 
-[node name="BallSpawn" type="Marker2D" parent="."]
+[node name="RedSpawn" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-90, -50)
+scale = Vector2(1, 1)
+
+[node name="BlueSpawn" type="Marker2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(85, -145)
 
 [node name="Health" type="Area2D" parent="."]

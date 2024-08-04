@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://tjbrim8d4fgr"]
+[gd_scene load_steps=5 format=3 uid="uid://tjbrim8d4fgr"]
 
 [ext_resource type="Texture2D" uid="uid://c8ki1j8o1oqv5" path="res://assets/fireball.aseprite" id="1_7eeb3"]
 [ext_resource type="Script" path="res://systems/magic/fireball.gd" id="1_ph0qx"]
+[ext_resource type="PackedScene" uid="uid://c17570ndghijx" path="res://fire_particles.tscn" id="2_elrtj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l5i38"]
 radius = 8.0
@@ -10,7 +11,10 @@ radius = 8.0
 z_index = 2
 script = ExtResource("1_ph0qx")
 
+[node name="FireParticles" parent="." instance=ExtResource("2_elrtj")]
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_7eeb3")
 
 [node name="CollisionBox" type="Area2D" parent="."]
